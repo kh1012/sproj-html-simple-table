@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://raw.githubusercontent.com/kh1012/sproj-std/main/files/favicon.ico" />
+  <title>html simple table</title>
+</head>
+<body style="padding: 10px">
+  <!-- SCRIPT 동작 코드 -->
+  <script type=""text/javascript">
+    //저장 클릭 시, input 태그에 value를 localstorage에 저장하는 코드
+    function setInputValueToLocalStorage(input_id, key_to_save, output_id) {
+      const value = document.getElementById(input_id).value;
+      window.localStorage.setItem(key_to_save, value);
+      const sliceValue = `${value.slice(0, 20)} ... ${value.slice(-20)}`;
+      document.getElementById(output_id).innerHTML = `정상적으로 저장이 완료 되었습니다. <b>(${value.slice(0, 20)} ... ${value.slice(-20)})</b><br>확인 방법 (Chrome 기준): 개발자 도구(F12) -> 애플리케이션 -> 로컬 스토리지 확인`;
+    }
+
+    //GET NODE 버튼 클릭 시 동작
+    function getNodeFetch() {
+      async function doWork() {
+        const BaseURL = window.localStorage.getItem('BaseURL');
+        const response = await fetch(`${BaseURL}/db/node`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'MAPI-Key': window.localStorage.getItem('MAPI-Key')
+        }});
+  
+        //TABLE 기본 구조 생성, HEADER, 동적으로 생성 할 BODY 마킹
+        const table = `
+        <table style="margin-top: 10px">
+          <thead>
+            <tr>
+              <th>NODE</th>
+              <th>x</th>
+              <th>y</th>
+              <th>z</th>
+            </tr>
+          </thead>
+          @BodyMask
+        </table>`;
+
+        //XYZ값을 이용해 TABLE BODY부분을 추가
+        const data = await response.json();
+        const nodes = data["NODE"];
+        const rows = document.createElement("tbody");
+        for (const key of Object.keys(nodes)) {
+          //TABLE Row를 생성
+          const row = document.createElement("tr");
+
+          //ID Column 생성
+          const id = document.createElement("td");
+          id.innerHTML = key;
+          row.appendChild(id);
+
+          //NODE X, Y, Z Column 생성
+          for (const coord of [ nodes[key].X, nodes[key].Y, nodes[key].Z ]) {
+            const col = document.createElement("td");
+            col.innerHTML = coord;
+            row.appendChild(col);
+          }
+
+          //Row 추가
+          rows.appendChild(row);
+        }
+
+        //BODY 마킹 부분을 생성한 BODY로 치환한다
+        document.getElementById("getnode-output").innerHTML = table.replace('@BodyMask', rows.outerHTML);
+      }
+
+      doWork();
+    }
+  </script>
+
+  <!-- TITLE -->
+  <h1>HTML SIMPE TABLE (+LocalStorage)</h1>
+
+  <!-- EXAMPLE -->
+  <ul>
+    <!-- CLIENT SAMPLE 모델 OPEN / CLEINT - SERVER 연결 -->
+    <li style="margin-bottom: 10px">
+      01. <b>GEN - API SERVER 연결 방법</b> 참고하여 GEN을 API 서버와 연결 합니다.
+    </li>
+    <!-- MAPI-KEY 입력 및 저장 -->
+    <li style="margin-bottom: 10px">
+      02. 01로부터 발급받은 <b>MAPI-Key을 입력하고 저장버튼</b>을 클릭하세요.
+      <div>
+        <input type="text" id="mapikey-input" style="width: 300px">
+        <button 
+          type="button" 
+          style="margin-left: 10px" 
+          onclick="setInputValueToLocalStorage('mapikey-input', 'MAPI-Key', 'mapikey-output')"
+        >
+          저장
+        </button>
+        <div id="mapikey-output" />
+      </div>
+    </li>
+    <!-- BASE URL 입력 및 저장 -->
+    <li style="margin-bottom: 10px">
+      03. 01에서 사용한 <b>Base Url을 입력하고 저장버튼</b>을 클릭하세요.
+      <div>
+        <input type="text" id="baseurl-input" style="width: 300px">
+        <button 
+          type="button" 
+          style="margin-left: 10px" 
+          onclick="setInputValueToLocalStorage('baseurl-input', 'BaseURL', 'baseurl-output')"
+        >
+          저장
+        </button>
+        <div id="baseurl-output" />
+      </div>
+    </li>
+    <!-- NODE 데이터를 TABLE로 출력 -->
+    <li>
+      04. <b>"GET"</b> NODE 정보를 가져와서 테이블로 출력합니다.
+      <!-- TABLE 스타일 변경 -->
+      <style>
+        table, td, th { border: 1px solid #000; border-collapse: collapse; text-align: center; padding: 5px; }
+      </style>
+      <!-- TABLE 출력 -->
+      <div style="margin-top: 10px">
+        <button type="button" onclick="getNodeFetch()">GET NODE TABLE</button>
+        <div id="getnode-output" />
+      </div>
+    </li>
+  </ul>
+</body>
+</html>
