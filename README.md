@@ -45,7 +45,7 @@ HTML Table 태그를 이용해서 DOM Element의 innerHTML을 치환하여 브�
       - function `getMapiKey()`: URL QueryString으로부터 MAPI-Key를 가져오는 함수 입니다.
       - function `getNodeFetch()`: MIDAS API를 통해 연결된 제품의 Node 정보를 가져 옵니다.
         - 함수 내부에서 HTML의 Table 태그인 `<table>, <thead>, <tbody>, <tr>, <th>, <td>`를 사용하고 있습니다. 더 많은 정보는 [MDN-TABLE](https://developer.mozilla.org/ko/docs/Web/HTML/Element/table) 이곳을 확인해 보세요!
-    - 웹 페이지에 표현을 담당하는 HTML 부분이 존재합니다. [MDN-HTML](https://developer.mozilla.org/ko/docs/Web/HTML)
+    - 웹 페이지에 표현을 담당하는 HTML([MDN-HTML](https://developer.mozilla.org/ko/docs/Web/HTML)) 부분이 존재합니다.
       - ul, li 태그를 활용하여 리스트로 표현되어 있습니다.
-        - [MDN-ul](https://developer.mozilla.org/ko/docs/Web/HTML/Element/ul)에 대해 확인해 보세요!
-        - [MDN-li](https://developer.mozilla.org/ko/docs/Web/HTML/Element/li)에 대해 확인해 보세요!
+        - [MDN-ul](https://developer.mozilla.org/ko/docs/Web/HTML/Element/ul) 에 대해 확인해 보세요!
+        - [MDN-li](https://developer.mozilla.org/ko/docs/Web/HTML/Element/li) 에 대해 확인해 보세요!
