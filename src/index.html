@@ -4,15 +4,29 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="https://raw.githubusercontent.com/kh1012/sproj-std/main/files/favicon.ico" />
+  <link rel="icon" href="https://raw.githubusercontent.com/kh1012/sproj-std/main/files/favicon.ico">
+  <link rel="stylesheet" href="index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
   <title>html simple table</title>
-</head>
-<body style="padding: 10px">
   <!-- SCRIPT 동작 코드 -->
   <script type=""text/javascript">
     // API를 사용하기 위한 기본적인 변수 및 함수
     const baseUrl = 'https://api-beta.rpm.kr-dv-midasit.com:443';
     const programType = 'gen';
+
+    function checkExistQuerystring() {
+      const mapikeyQuery = getMapiKey();
+      console.log(mapikeyQuery);
+      if (mapikeyQuery === null) return;
+      const currentQueryStringDot = document.getElementById('current-querystring-dot');
+      currentQueryStringDot.style.backgroundColor = '#059669';
+      const currentQueryString = document.getElementById('current-querystring');
+      currentQueryString.innerHTML = `Current QueryString is ${mapikeyQuery}`;
+      currentQueryString.style.color = '#059669';
+      currentQueryString.style.fontWeight = '700';
+    }
+
     function getMapiKey() {
       // url에서 params를 가져오고 mapikey를 get 합니다.
       const params = new URLSearchParams(window.location.search);
@@ -24,15 +38,6 @@
       const inputValue = document.getElementById('querystring-input').value;
       const queryString = '?mapikey=' + inputValue;
       document.getElementById('querystring-output').textContent = queryString;
-    }
-
-    // 만들어진 QueryString을 주소창에 적용 시켜주는 함수
-    function queryStringToURL() {
-      const href = window.location.href;
-      if (!href.includes('?mapikey=')) {
-        window.location.href = 
-          window.location.href + document.getElementById('querystring-output').textContent;
-      }
     }
 
     // MAPI-Key가 올바른지 확인하는 함수
@@ -70,7 +75,7 @@
   
         //TABLE 기본 구조 생성, HEADER, 동적으로 생성 할 BODY 마킹
         const table = `
-        <table style="margin-top: 10px">
+        <table>
           <thead>
             <tr>
               <th>NODE</th>
@@ -113,44 +118,45 @@
       doWork();
     }
   </script>
-
-  <div>
+</head>
+<body class="body-bg" onload="checkExistQuerystring()">
+  <div class="all-wrapper">
     <!-- TITLE -->
-    <h1>HTML SIMPE TABLE</h1>
+    <header>
+      <h1 class="header-h1">Simple Table for MAPI-Key</h1>
+    </header>
 
-    <!-- EXAMPLE -->
-    <ul>
-      <li style="margin-bottom: 10px">
-        아래 Edit Box에 MAPI-Key를 넣고 <b>QueryString을 만들어 보세요.</b>
-        <div style="margin-top: 10px; margin-bottom: 10px">
-          <input type="text" id="querystring-input" />
-          <button type="button" style="margin-left: 10px" onclick="makeQueryString()">QueryString 만들기</button>
-          <pre id='querystring-output' style="margin-bottom: 10px"></pre>
-          <p>위 문자열을 복사해서 주소창에 직접 붙여넣기 + Enter 하시거나 <button type="button" onclick="queryStringToURL()">QueryString 적용하기 (To URL)</button>를 눌러주세요.</p>
-          <p>브라우저의 주소창을 보시면 MAPI-Key가 적용된 걸 보실 수 있습니다.</p>
+    <main>
+      <section>
+        <h3 class="main-sec1-h3">Quick Start</h3>
+        <p class="main-sec-p">Test it according to the procedure.</p>
+        <span id="current-querystring-dot"></span>
+        <p id="current-querystring" class="main-sec-p">Current QueryString is not exist.</p>
+      </section>
+
+      <!-- EXAMPLE -->
+      <section class="main-sec2">
+        <div class="main-sec2-wrapper">
+          <p class="main-sec-p main-purple-600">1. <b>Add MAPI-Key</b> to the Edit Box below and <b>create QueryString.</b></p>
+          <div class="main-sec2-col">
+            <input type="text" id="querystring-input" class="main-sec2-col-input" placeholder="Paste to MAPI-Key" />
+            <button type="button" onclick="makeQueryString()" class="main-sec2-col-button">Create a QueryString</button>
+          </div>
+          <pre id='querystring-output'>. . .</pre>
+          <p class="main-sec-p main-purple-600">2. <b>Copy and paste</b> the above string directly into the address bar</p>
+          <img src="./../img/copyPaste.png" />
+          <p class="main-sec-p main-purple-600 main-p-default">3. <b>Make sure the MAPI-Key</b> is in the correct form.</p>
+          <button type="button" onclick="checkMapiKey()" class="main-sec2-col-button">Verify MAPI-Key</button>
+          <pre id='status-output'>. . .</pre>
+          <p class="main-sec-p main-purple-600 main-p-default">4. Click the button below to <b>get NODE Data.</b></p>
+          <button type="button" onclick="getNodeFetch()" class="main-sec2-col-button">GET NODE</button>
+          <div id="getnode-output">. . .</div>
         </div>
-      </li>
-      <li style="margin-bottom: '10px'">
-        MAPI-Key가 올바른 형태인지 확인하세요.
-        <div style="margin-top: 10px">
-          <button type="button" onclick="checkMapiKey()">MAPI-Key 확인</button>
-          <pre id='status-output'></pre>
-        </div>
-      </li>
-      <!-- NODE 데이터를 TABLE로 출력 -->
-      <li>
-        <b>"GET"</b> NODE 정보를 가져와서 <b>테이블</b>로 출력합니다.
-        <!-- TABLE 스타일 변경 -->
-        <style>
-          table, td, th { border: 1px solid #000; border-collapse: collapse; text-align: center; padding: 5px; }
-        </style>
-        <!-- TABLE 출력 -->
-        <div style="margin-top: 10px">
-          <button type="button" onclick="getNodeFetch()">GET NODE TABLE</button>
-          <div id="getnode-output" />
-        </div>
-      </li>
-    </ul>
+      </section>
+    </main>
+
+    <footer>
+      <h3 class="footer-h3">-</h3>
+    </footer>
   </div>
-</body>
 </html>
