@@ -4,10 +4,8 @@ MIDAS API 중 "GET NODE"를 통해 API를 경험할 수 있는 저장소 입니�
 HTML Table 태그를 이용해서 DOM Element의 innerHTML을 치환하여 브라우져 UI에 API로부터 받은 데이터를 출력하는 예제 입니다.
 <br /><br />
 
-## Prerequisite
-
-해당 저장소를 사용하려면 [Getting Started With HTML](https://github.com/kh1012/sproj-prerequisite/tree/main/html)에 포함된 환경이 모두 구성되어 있어야 합니다. \
-가능한 안내 된 프로그램을 다운로드 받으시고 최신 버전을 사용하는 것이 좋습니다. `LTS`
+## [Demo Page](https://kh1012.github.io/sproj-html-simple-table/src/index.html)
+위 링크를 클릭하시면 테스트 페이지를 보실 수 있습니다.
 <br /><br />
 
 ## Quick Start
@@ -32,6 +30,12 @@ HTML Table 태그를 이용해서 DOM Element의 innerHTML을 치환하여 브�
 - 해제한 폴더를 열어 "./src/index.html"을 실행 해주세요.\
   <br />
   <img src="./img/openhtml.png" width="600px" />
+<br /><br />
+
+## Plugin Development
+
+해당 저장소를 사용하려면 [Getting Started With HTML](https://github.com/kh1012/sproj-prerequisite/tree/main/html)에 포함된 환경이 모두 구성되어 있어야 합니다. \
+가능한 안내 된 프로그램을 다운로드 받으시고 최신 버전을 사용하는 것이 좋습니다. `LTS`
 <br /><br />
 
 ### 주요 코드 설명
