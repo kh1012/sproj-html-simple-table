@@ -163,6 +163,11 @@ footer {
   font-variant-numeric: tabular-nums;
 }
 
+#querystring-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 table, td, th {
   border: 1px solid #000;
   border-collapse: collapse;
